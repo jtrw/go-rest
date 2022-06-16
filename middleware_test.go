@@ -59,3 +59,19 @@ func TestMiddleware_PingPost(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, "PONG", res["message"])
 }
+
+func TestMiddleware_PanicRecovery(t *testing.T) {
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		panic("PANIC")
+		//require.NoError(t, err)
+	})
+	ts := httptest.NewServer(PanicRecovery(handler))
+	defer ts.Close()
+
+    var jsonData = []byte("")
+
+	resp, err := http.Post(ts.URL + "/error", "application/json", bytes.NewBuffer(jsonData))
+	require.Nil(t, err)
+	assert.Equal(t, 500, resp.StatusCode)
+	defer resp.Body.Close()
+}
