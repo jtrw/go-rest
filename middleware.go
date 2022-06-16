@@ -1,9 +1,11 @@
 package rest
 
 import (
+    "log"
 	"net/http"
 	"strings"
 	"encoding/json"
+	"runtime/debug"
 )
 
 // Ping middleware response with pong to /ping. Stops chain if ping request detected
@@ -27,4 +29,17 @@ func Ping(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 	}
 	return http.HandlerFunc(fn)
+}
+
+func PanicRecovery(next http.Handler) http.Handler {
+  return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+    defer func() {
+      if err := recover(); err != nil {
+        http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+        log.Println("An error occurred:", err)
+        log.Println(string(debug.Stack()))
+      }
+    }()
+    next.ServeHTTP(w, req)
+  })
 }
