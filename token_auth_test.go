@@ -17,7 +17,7 @@ func TestHeaderTokenAuth(t *testing.T) {
         _, err := w.Write([]byte("blabla blabla"))
         require.NoError(t, err)
     })
-    ts := httptest.NewServer(Authentication("1234567890")(handler))
+    ts := httptest.NewServer(Authentication("Api-Token", "1234567890")(handler))
     defer ts.Close()
     {
         req, err := http.NewRequest("GET", ts.URL+"/ping", nil)

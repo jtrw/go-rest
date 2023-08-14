@@ -8,10 +8,10 @@ import (
 
 const TOKEN_NAME = "Api-Token"
 
-func Authentication(token string) func(http.Handler) http.Handler {
+func Authentication(headerName, token string) func(http.Handler) http.Handler {
     return func(next http.Handler) http.Handler {
         fn := func(w http.ResponseWriter, r *http.Request) {
-            apiToken := r.Header.Get(TOKEN_NAME)
+            apiToken := r.Header.Get(headerName)
             if apiToken != token {
                 w.Write([]byte("Unauthorized"));
                 w.WriteHeader(http.StatusUnauthorized)
