@@ -1,13 +1,10 @@
 package rest
 
 import (
-	//"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 	"io"
-	//"time"
-
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -17,12 +14,13 @@ func TestHeaderTokenAuth(t *testing.T) {
         _, err := w.Write([]byte("blabla blabla"))
         require.NoError(t, err)
     })
-    ts := httptest.NewServer(Authentication("1234567890")(handler))
+    headerName := "Api-Token"
+    ts := httptest.NewServer(Authentication("Api-Token", "1234567890")(handler))
     defer ts.Close()
     {
         req, err := http.NewRequest("GET", ts.URL+"/ping", nil)
         require.NoError(t, err)
-        req.Header.Set("Api-Token", "1234567890")
+        req.Header.Set(headerName, "1234567890")
         resp, err := http.DefaultClient.Do(req)
         require.NoError(t, err)
         assert.Equal(t, 200, resp.StatusCode)
@@ -32,14 +30,13 @@ func TestHeaderTokenAuth(t *testing.T) {
      {
         req, err := http.NewRequest("GET", ts.URL+"/ping", nil)
         require.NoError(t, err)
-        req.Header.Set("Api-Token", "invalid")
+        req.Header.Set(headerName, "invalid")
         resp, err := http.DefaultClient.Do(req)
         require.NoError(t, err)
-        assert.Equal(t, 200, resp.StatusCode)
+        assert.Equal(t, http.StatusUnauthorized, resp.StatusCode)
         defer resp.Body.Close()
         b, err := io.ReadAll(resp.Body)
         assert.NoError(t, err)
-        assert.Equal(t, "Unauthorized", string(b))
+        assert.Equal(t, "Unauthorized\n", string(b))
      }
-
 }
