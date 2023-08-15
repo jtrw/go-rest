@@ -13,8 +13,7 @@ func Authentication(headerName, token string) func(http.Handler) http.Handler {
         fn := func(w http.ResponseWriter, r *http.Request) {
             apiToken := r.Header.Get(headerName)
             if apiToken != token {
-                w.Write([]byte("Unauthorized"));
-                w.WriteHeader(http.StatusUnauthorized)
+                http.Error(w, "Unauthorized", http.StatusUnauthorized)
                 return
             }
         }
