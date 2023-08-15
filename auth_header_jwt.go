@@ -6,7 +6,7 @@ import (
     "github.com/golang-jwt/jwt"
 )
 
-func AuthenticationJwt(headerName, secret string) func(http.Handler) http.Handler {
+func AuthenticationJwt(headerName, secret string,  userCondition func(claims map[string]interface{}) error) func(http.Handler) http.Handler {
     return func(next http.Handler) http.Handler {
         fn := func(w http.ResponseWriter, r *http.Request) {
             if r.Header[headerName] == nil {
@@ -33,7 +33,7 @@ func AuthenticationJwt(headerName, secret string) func(http.Handler) http.Handle
                 return
             }
 
-            _, ok := token.Claims.(jwt.MapClaims)
+            claims, ok := token.Claims.(jwt.MapClaims)
 
             if !ok {
                 w.Write([]byte("couldn't parse claims"));
@@ -41,11 +41,11 @@ func AuthenticationJwt(headerName, secret string) func(http.Handler) http.Handle
                 return
             }
 
-//             if claims["user_id"] == nil {
-//                 w.Write([]byte("user_id not found"));
-//                 w.WriteHeader(http.StatusUnauthorized)
-//                 return
-//             }
+            if err := userCondition(claims); err != nil {
+                http.Error(w, err.Error(), http.StatusUnauthorized)
+                return
+            }
+
             next.ServeHTTP(w, r)
         }
         return http.HandlerFunc(fn)
