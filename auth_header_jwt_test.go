@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestHeaderTokenAuth(t *testing.T) {
+func TestHeaderJwtTokenAuth(t *testing.T) {
     jwtToken := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.WKQfGgHiRhXdkdz6Qy90gMQhYf3uK-GMeyAQBEs1EbQ"
     jwtFail := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.1F5StBaWKNe53iB2919Agg3nMcCdwINDWlT0sNBaMbE"
 
