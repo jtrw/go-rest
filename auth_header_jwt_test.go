@@ -57,6 +57,17 @@ func TestHeaderJwtTokenAuth(t *testing.T) {
         assert.NoError(t, err)
         assert.Equal(t, "Forbidden\n", string(b))
     }
+    {
+        req, err := http.NewRequest("GET", ts.URL+"/ping", nil)
+        require.NoError(t, err)
+        resp, err := http.DefaultClient.Do(req)
+        require.NoError(t, err)
+        assert.Equal(t, http.StatusForbidden, resp.StatusCode)
+        defer resp.Body.Close()
+        b, err := io.ReadAll(resp.Body)
+        assert.NoError(t, err)
+        assert.Equal(t, "Can not find token in header\n", string(b))
+    }
 }
 
 func TestHeaderJwtTokenAuthCheckClaim(t *testing.T) {

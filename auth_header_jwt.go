@@ -10,8 +10,7 @@ func AuthenticationJwt(headerName, secret string,  userCondition func(claims map
     return func(next http.Handler) http.Handler {
         fn := func(w http.ResponseWriter, r *http.Request) {
             if r.Header[headerName] == nil {
-                w.Write([]byte("Can not find token in header"));
-                w.WriteHeader(http.StatusUnauthorized)
+                http.Error(w, "Can not find token in header", http.StatusForbidden)
                 return
             }
 
