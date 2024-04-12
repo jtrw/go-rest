@@ -8,9 +8,11 @@ Middleware for REST API
 1. Ping
 2. PanicRecovery
 3. Authentication via header
-4. Authentication via JWT token
-5. RealIP
-6. SizeLimit
+4. Authentication via Bearer token
+5. Authentication via JWT token
+6. BasicAuth
+7. RealIP
+8. SizeLimit
 
 ### Authentication via header
 
@@ -19,6 +21,10 @@ Authentication is a middleware that checks for a header with a given name and va
 ### Authentication via JWT token
 
 AuthenticationJWT is a middleware that checks for a JWT token in the Authorization header.
+
+### Authentication via bearer token
+
+AuthenticationBearer is a middleware that checks for a bearer token in the Authorization header.
 
 ### BasicAuth middleware
 
