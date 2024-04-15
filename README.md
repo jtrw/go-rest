@@ -14,6 +14,12 @@ Middleware for REST API
 7. RealIP
 8. SizeLimit
 
+## Usage
+
+### Ping middleware
+
+Ping middleware is a simple middleware that returns a 200 OK response.
+
 ### Authentication via header
 
 Authentication is a middleware that checks for a header with a given name and value.
