@@ -5,7 +5,7 @@
 
 Middleware for REST API
 
-1. [Ping](#ping-middleware))
+1. [Ping](#ping-middleware)
 2. [PanicRecovery](#panicrecovery-middleware)
 3. [Authentication via header](#authentication-via-header)
 4. [Authentication via Bearer token](#authentication-via-bearer-token)
