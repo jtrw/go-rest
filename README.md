@@ -5,14 +5,14 @@
 
 Middleware for REST API
 
-1. Ping
-2. PanicRecovery
-3. Authentication via header
-4. Authentication via Bearer token
-5. Authentication via JWT token
-6. BasicAuth
-7. RealIP
-8. SizeLimit
+1. [Ping](#ping-middleware))
+2. [PanicRecovery](#panicrecovery-middleware)
+3. [Authentication via header](#authentication-via-header)
+4. [Authentication via Bearer token](#authentication-via-bearer-token)
+5. [Authentication via JWT token](#authentication-via-jwt-token)
+6. [BasicAuth](#basicauth-middleware)
+7. [RealIP](#realip-middleware)
+8. [SizeLimit](#sizelimit-middleware)
 
 ## Usage
 
