@@ -36,6 +36,8 @@ AuthenticationBearer is a middleware that checks for a bearer token in the Autho
 
 BasicAuth middleware checks for a username and password in the request's Authorization header.
 
+For form use BasicAuthWithPrompt middleware, which prompts for username and password if they are not provided.
+
 ### SizeLimit middleware
 
 SizeLimit middleware checks if body size is above the limit and returns StatusRequestEntityTooLarge (413)
