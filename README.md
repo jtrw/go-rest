@@ -28,15 +28,51 @@ Authentication is a middleware that checks for a header with a given name and va
 
 AuthenticationJWT is a middleware that checks for a JWT token in the Authorization header.
 
+Example:
+```
+func main() {
+	http.Handle("/", middleware.AuthenticationJWT("Jwt-Token", "secret", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprint(w, "Hello, World!")
+	})))
+
+	http.ListenAndServe(":8080", nil)
+}
+``
+
+
 ### Authentication via bearer token
 
 AuthenticationBearer is a middleware that checks for a bearer token in the Authorization header.
+
+Example:
+```
+func main() {
+	http.Handle("/", middleware.AuthenticationBearer("Bearer", "secret", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprint(w, "Hello, World!")
+	})))
+
+	http.ListenAndServe(":8080", nil)
+}
+```
+
 
 ### BasicAuth middleware
 
 BasicAuth middleware checks for a username and password in the request's Authorization header.
 
 For form use BasicAuthWithPrompt middleware, which prompts for username and password if they are not provided.
+Example:
+```
+
+func main() {
+	http.Handle("/", middleware.BasicAuth("username", "password", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprint(w, "Hello, World!")
+	})))
+
+	http.ListenAndServe(":8080", nil)
+}
+```
+
 
 ### SizeLimit middleware
 
